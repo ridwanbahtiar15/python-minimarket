@@ -9,7 +9,7 @@ data = [
 print('')
 print('-' * 12, 'List Produk', '-' * 12)
 print('')
-print(tabulate(data, headers=['Kode Produk', 'Nama Produk', 'Harga', 'Stok']))
+print(tabulate(data, headers=['Kode Produk', 'Nama Produk', 'Harga']))
 print('')
 print('* Belanja lebih dari Rp.50000 dan dapatkan potongan 10% *')
 print('')
