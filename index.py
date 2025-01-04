@@ -19,32 +19,35 @@ total = 0
 loop = True
 dataExisting = False
 
-def addProduct(productId, productQty):
+def searchProduct(productId):
   for i in range(len(data)):
     if productId == data[i][0]:
-      result.append([data[i][1], data[i][2], productQty, data[i][2] * productQty])
-      return data[i][2] * productQty
+      return True, i
+    if i == len(data) - 1:
+      return False, 0
 
+def addProduct(productId, productQty):
+  if searchProduct(productId)[0] == True:
+    i = searchProduct(productId)[1]
+    result.append([data[i][1], data[i][2], productQty, data[i][2] * productQty])
+    return data[i][2] * productQty
+    
 def discountFunc(price):
   return int(price * 0.1)
 
 while loop:
   while not dataExisting:
     productId = input('Masukkan kode produk : ')
-
-    for i in range(len(data)):
-      if productId == data[i][0]:
-        dataExisting = True
-        break
-      if i == len(data) - 1:
-        print('Kode Produk tidak ditemukan. Coba lagi')
+    if searchProduct(productId)[0] == True:
+      dataExisting = True
+    elif searchProduct(productId)[0] == False:
+      print('Kode Produk tidak ditemukan. Coba lagi')
 
   while True:
     productQty = input('Masukkan jumlah produk : ')
     try:
         productQty = int(productQty)
         if productQty > 0:
-          data[i]
           break
         else:
           print('Masukkan jumlah lebih dari 0')
