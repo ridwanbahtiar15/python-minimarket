@@ -23,15 +23,14 @@ def searchProduct(productId):
   for i in range(len(data)):
     if productId == data[i][0]:
       return True, i
-    if i == len(data) - 1:
-      return False, 0
+  return False, None
 
 def addProduct(productId, productQty):
   check, i = searchProduct(productId)
   if check:
     result.append([data[i][1], data[i][2], productQty, data[i][2] * productQty])
     return data[i][2] * productQty
-    
+
 def discountFunc(price):
   return int(price * 0.1)
 
@@ -41,7 +40,7 @@ while loop:
     check, _ = searchProduct(productId)
     if check:
       dataExisting = True
-    elif not check:
+    else:
       print('Kode Produk tidak ditemukan. Coba lagi')
 
   while True:
@@ -49,8 +48,7 @@ while loop:
       productQty = int(input('Masukkan jumlah produk : '))
       if productQty > 0:
         break
-      else:
-        print('Masukkan jumlah lebih dari 0')
+      print('Masukkan jumlah lebih dari 0')
     except:
       print('Masukkan angka yang valid. Coba lagi')
 
