@@ -1,5 +1,6 @@
 from tabulate import tabulate
 import mysql.connector
+import uuid
 
 cnx = mysql.connector.connect(user='root', password='', host='localhost', database='minimarket')
 cursor = cnx.cursor()
@@ -26,12 +27,21 @@ def searchProduct(productId):
   cursor.execute(sqlFetch, [productId])
   return cursor.fetchone()
 
+def orderProduct(productId):
+  sql = "INSERT INTO order_product (order_id, user_id, product_id) VALUES (%s, %s, %s)"
+  userId = uuid.uuid1()
+  orderId = uuid.uuid1()
+  val = (str(orderId), str(userId), productId)
+  cursor.execute(sql, val)
+  cnx.commit()
+  return id
+
 def addProduct(productId, productQty):
   data = searchProduct(productId)
   if data:
     if data[3] == 0 or data[3] < productQty:
       return 0
-    newStock =  data[3] - productQty
+    newStock = data[3] - productQty
     result.append([data[0], data[1], productQty, data[2] * productQty])
     sqlUpdate = "UPDATE product SET stock = %s WHERE product_id = %s"
     val = (newStock, productId)
@@ -76,6 +86,8 @@ while loop:
     if isAddProduct == 't':
       loop = False
       dataExisting = False
+      for i in range(len(result) - 1):
+        orderProduct(result[i][0])
     elif isAddProduct == 'y':
       dataExisting = False
     else:
